@@ -1,0 +1,6 @@
+config.js
+.env
+backend/.env
+backend/node_modules/
+node_modules/
+deploy/.env.production

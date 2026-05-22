@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Tráfego Pago — Guia Completo de Tráfego Pago | Cursos Práticos</title>
+    <meta name="description" content="Aprenda tudo sobre Tráfego Pago do zero. Domina Facebook Ads, Google Ads, TikTok Ads e muito mais. Transforme conhecimento em resultados. Método comprovado por +1.500 alunos.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%234f46e5'/%3E%3Cstop offset='100%25' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M16 4L8 12h4l-2 12 8-10h-4z' fill='white'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=2">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+
+    <!-- ========== TOPBAR URGÊNCIA ========== -->
+    <div class="topbar">
+        <div class="container">
+            <p><i data-lucide="zap" class="icon-inline"></i> <strong>Últimas vagas</strong> com 90% de desconto — Encerra em <span id="countdownTop" class="countdown-inline">00:00:00</span></p>
+        </div>
+    </div>
+
+    <!-- ========== NAV ========== -->
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="logo"><i data-lucide="trending-up" class="icon-logo"></i> <span>Tráfego</span>Pago</a>
+            <button class="nav-cta" onclick="goToSection('#lead')">Quero Minha Vaga</button>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="hero">
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <span class="badge">NOVO — Método 2026 Atualizado</span>
+                <h1>Aprenda Tudo sobre <em>Tráfego Pago</em> e Transforme Cliques em Vendas</h1>
+                <p class="hero-sub">Mesmo que você nunca tenha criado um anúncio… Você vai dominar as maiores plataformas de tráfego — <strong>Facebook Ads, Google Ads, TikTok Ads</strong> — e gerar vendas consistentes para seus produtos.</p>
+                
+                <div class="hero-proof">
+                    <div class="proof-item">
+                        <strong>1.523+</strong>
+                        <span>alunos</span>
+                    </div>
+                    <div class="proof-divider"></div>
+                    <div class="proof-item">
+                        <strong>4.9★</strong>
+                        <span>avaliação</span>
+                    </div>
+                    <div class="proof-divider"></div>
+                    <div class="proof-item">
+                        <strong>R$ 2.3M+</strong>
+                        <span>gerados</span>
+                    </div>
+                </div>
+
+                <p class="hero-micro"><i data-lucide="lightbulb" style="width:18px;height:18px;color:#1967d2;vertical-align:-3px;margin-right:6px"></i>Você aprenderá de forma prática e estruturada, do básico até estratégias avançadas de otimização.</p>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="hero-card-glow"></div>
+                    <div class="hero-card-icon"><i data-lucide="bar-chart-3" style="width:40px;height:40px;color:#1967d2"></i></div>
+                    <div class="hero-card-label">Valor Real do Curso</div>
+                    <div class="hero-card-price">
+                        <span>R$ 197,00</span>
+                        <strong>R$ 19,90</strong>
+                    </div>
+                    <p style="color:#10b981;font-size:.85rem;margin-top:12px"><i data-lucide="check-circle" style="width:16px;height:16px;color:#10b981;vertical-align:-2px;margin-right:6px"></i>Por Tempo Limitado</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== BENEFÍCIOS ========== -->
+    <section class="section section-benefits">
+        <div class="container container-sm">
+            <span class="section-tag">O QUE VOCÊ VAI APRENDER</span>
+            <h2>Conteúdo Completo e Prático</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i data-lucide="megaphone" style="width:32px;height:32px;color:#1967d2"></i></div>
+                    <h3>Facebook & Instagram Ads</h3>
+                    <p>Crie campanhas segmentadas com pixel, entenda públicos e maximize ROI com técnicas de otimização.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i data-lucide="search" style="width:32px;height:32px;color:#4285f4"></i></div>
+                    <h3>Google Ads Completo</h3>
+                    <p>Search, Display Network e YouTube. Domine pesquisa por keywords e remarketing para conversões.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i data-lucide="music" style="width:32px;height:32px;color:#000"></i></div>
+                    <h3>TikTok Ads Viral</h3>
+                    <p>Aprenda a criar anúncios criativos que funcionam em TikTok — ideal para públicos mais jovens.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i data-lucide="target" style="width:32px;height:32px;color:#e60b7f"></i></div>
+                    <h3>Segmentação Avançada</h3>
+                    <p>Públicos personalizados, lookalike audiences e estratégias de remarket que convertem.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i data-lucide="bar-chart-2" style="width:32px;height:32px;color:#1967d2"></i></div>
+                    <h3>Análise de Métricas</h3>
+                    <p>Entenda CPA, ROAS, CTR e muito mais. Otimize campanhas com base em dados reais.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i data-lucide="shield-check" style="width:32px;height:32px;color:#10b981"></i></div>
+                    <h3>Compliance & Segurança</h3>
+                    <p>Regras, bloqueios e como contorná-los. Mantenha sua conta segura e rentável.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== LEAD CAPTURE ========== -->
+    <section class="section section-lead" id="lead">
+        <div class="container lead-wrapper">
+            <div class="lead-copy">
+                <h2>Comece Agora Mesmo</h2>
+                <ul class="lead-checks">
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981"></i> Acesso imediato ao conteúdo completo</li>
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981"></i> Bônus: Templates de campanhas (valor R$ 99)</li>
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981"></i> Comunidade privada com suporte</li>
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981"></i> Atualizações vitalícias do conteúdo</li>
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981"></i> Garantia de 7 dias ou 100% de reembolso</li>
+                </ul>
+            </div>
+
+            <div class="lead-form-wrap">
+                <h3>Garanta Sua Vaga com Desconto</h3>
+                <p>Preencha seus dados e bora aprender!</p>
+                <form id="leadForm">
+                    <div class="field">
+                        <label for="leadName">Seu Nome Completo</label>
+                        <input type="text" id="leadName" placeholder="Ex: João Silva" required>
+                        <div class="field-error" id="leadNameError"></div>
+                    </div>
+                    <div class="field">
+                        <label for="leadEmail">Seu E-mail</label>
+                        <input type="email" id="leadEmail" placeholder="seu@email.com" required>
+                        <div class="field-error" id="leadEmailError"></div>
+                    </div>
+                    <button class="btn btn-primary btn-block btn-lg" type="submit">
+                        <i data-lucide="arrow-right" style="width:20px;height:20px"></i> Continuar
+                    </button>
+                    <div class="form-micro">
+                        <i data-lucide="lock" style="width:14px;height:14px"></i> Seus dados estão protegidos
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CURRICULUM ========== -->
+    <section class="section section-curriculum">
+        <div class="container container-sm">
+            <span class="section-tag">ESTRUTURA DO CURSO</span>
+            <h2>17 Módulos Completos</h2>
+            <div class="curriculum-list">
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">1</div>
+                            <div>
+                                <h4>Introdução ao Tráfego Pago</h4>
+                                <p style="font-size:.85rem;color:#6b7280">3 aulas • 15 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>O que é tráfego pago e por que você precisa</li>
+                            <li>Diferenças entre tráfego orgânico e pago</li>
+                            <li>Plataformas principais e onde focar</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">2</div>
+                            <div>
+                                <h4>Diferentes Fontes de Tráfego</h4>
+                                <p style="font-size:.85rem;color:#6b7280">5 aulas • 28 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Facebook Ads: Segmentação detalhada</li>
+                            <li>Google Ads: Search e Display Network</li>
+                            <li>TikTok Ads: Conteúdo viral</li>
+                            <li>Pinterest Ads: Visual e inspiração</li>
+                            <li>Outras plataformas: Taboola, Programática</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">3</div>
+                            <div>
+                                <h4>Conceitos Básicos</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 22 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Resultados Rápidos vs. Tráfego Orgânico</li>
+                            <li>Controle sobre público-alvo</li>
+                            <li>Escalabilidade do investimento</li>
+                            <li>ROI e Lucratividade</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">4</div>
+                            <div>
+                                <h4>Configurações Iniciais</h4>
+                                <p style="font-size:.85rem;color:#6b7280">6 aulas • 35 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Criar conta no Facebook Business</li>
+                            <li>Meta Business Suite: Como usar</li>
+                            <li>Conectar Instagram Business</li>
+                            <li>WhatsApp Business</li>
+                            <li>Métodos de pagamento</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">5</div>
+                            <div>
+                                <h4>Criando e Instalando o Pixel</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 20 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>O que é Facebook Pixel</li>
+                            <li>Criar novo Pixel no Business</li>
+                            <li>Instalar em seu site</li>
+                            <li>Testar com Facebook Pixel Helper</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">6</div>
+                            <div>
+                                <h4>Cobranças e Gastos</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 18 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Limites de gasto e confiança</li>
+                            <li>Aumentar limite de confiança</li>
+                            <li>Múltiplas contas de anúncios</li>
+                            <li>Monitorar e controlar custos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">7</div>
+                            <div>
+                                <h4>Hierarquia da Campanha</h4>
+                                <p style="font-size:.85rem;color:#6b7280">3 aulas • 16 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Estrutura: Campanha → Conjunto → Anúncio</li>
+                            <li>Objetivos de campanha</li>
+                            <li>Criatividades e formatos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">8</div>
+                            <div>
+                                <h4>Segmentação Avançada</h4>
+                                <p style="font-size:.85rem;color:#6b7280">5 aulas • 30 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Idade, gênero e localização</li>
+                            <li>Interesses e comportamentos</li>
+                            <li>Públicos personalizados via Pixel</li>
+                            <li>Lookalike Audiences</li>
+                            <li>Públicos similares</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">9</div>
+                            <div>
+                                <h4>Posicionamento de Anúncios</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 21 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Posicionamento automático</li>
+                            <li>Posicionamento manual</li>
+                            <li>Feed, Stories, Messenger</li>
+                            <li>Desktop vs. Mobile</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">10</div>
+                            <div>
+                                <h4>Regras Gerais e Boas Práticas</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 19 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Produtos ilegais e desinformação</li>
+                            <li>Práticas discriminatórias</li>
+                            <li>Conteúdo provocador</li>
+                            <li>Promessas irreais</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">11</div>
+                            <div>
+                                <h4>Bloqueios e Contingência</h4>
+                                <p style="font-size:.85rem;color:#6b7280">5 aulas • 25 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Por que você é bloqueado</li>
+                            <li>Como recuperar acesso</li>
+                            <li>Perfis de contingência</li>
+                            <li>Resolver problemas rapidamente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">12</div>
+                            <div>
+                                <h4>Análise de Métricas</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 22 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Resultados e ROI</li>
+                            <li>CPA (Custo por Aquisição)</li>
+                            <li>CPM (Custo por 1000 Impressões)</li>
+                            <li>CTR e Taxa de Clique</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">13</div>
+                            <div>
+                                <h4>Estratégias para Produtos Digitais</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 20 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>CPA ideal para cada tipo</li>
+                            <li>Públicos similares eficazes</li>
+                            <li>Testar diferentes criativos</li>
+                            <li>Anúncios contínuos 24h</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">14</div>
+                            <div>
+                                <h4>Estratégias para Produtos Físicos</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 20 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>WhatsApp para pedidos rápidos</li>
+                            <li>Fidelização de clientes</li>
+                            <li>Promoções e desconto</li>
+                            <li>Fotos e vídeos de qualidade</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">15</div>
+                            <div>
+                                <h4>Remarketing Avançado</h4>
+                                <p style="font-size:.85rem;color:#6b7280">4 aulas • 19 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Públicos personalizados</li>
+                            <li>Múltiplos anúncios</li>
+                            <li>Diferentes formatos</li>
+                            <li>Aumentar conversão com segunda chance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">16</div>
+                            <div>
+                                <h4>Estratégias Avançadas</h4>
+                                <p style="font-size:.85rem;color:#6b7280">5 aulas • 28 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Escalamento horizontal e vertical</li>
+                            <li>Testes A/B otimizados</li>
+                            <li>Custos por resultado ideais</li>
+                            <li>Automação de campanhas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="curriculum-module">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-num">17</div>
+                            <div>
+                                <h4>Conclusão e Próximos Passos</h4>
+                                <p style="font-size:.85rem;color:#6b7280">2 aulas • 10 minutos</p>
+                            </div>
+                        </div>
+                        <svg class="module-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="module-body">
+                        <ul>
+                            <li>Recapitulação do aprendizado</li>
+                            <li>Mantendo-se atualizado no mundo do tráfego pago</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PRICING ========== -->
+    <section class="section section-pricing" id="pricing">
+        <div class="container container-sm">
+            <span class="section-tag">INVESTIMENTO</span>
+            <h2>Aproveitando a Oferta de Lançamento</h2>
+            <p class="pricing-sub">Normalmente R$ 197, hoje você tem 90% de desconto por tempo limitado</p>
+
+            <div class="pricing-card">
+                <div class="pricing-badge">OFERTA</div>
+                <h3>Curso Tráfego Pago</h3>
+                <div class="pricing-price">
+                    <span class="pricing-original">R$ 197,00</span>
+                    <div class="pricing-current">
+                        <div class="pricing-currency">R$</div>
+                        <div class="pricing-value">19<sup>,90</sup></div>
+                    </div>
+                    <span class="pricing-period">Pagamento único</span>
+                </div>
+                <div class="pricing-installment"><i data-lucide="credit-card" style="width:18px;height:18px;color:#1967d2;vertical-align:-3px;margin-right:6px"></i>Ou 1x sem juros no cartão</div>
+
+                <ul class="pricing-features">
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981;flex-shrink:0"></i> <strong>17 módulos</strong> com 88 aulas completas</li>
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981;flex-shrink:0"></i> <strong>Templates</strong> de campanhas prontas</li>
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981;flex-shrink:0"></i> <strong>Comunidade</strong> privada com suporte</li>
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981;flex-shrink:0"></i> <strong>Atualizações vitalícias</strong> do conteúdo</li>
+                    <li><i data-lucide="check-circle" style="width:20px;height:20px;color:#10b981;flex-shrink:0"></i> <strong>Garantia de 7 dias</strong> ou dinheiro de volta</li>
+                </ul>
+
+                <button class="btn btn-success btn-block btn-lg" onclick="goToSection('#checkout')">
+                    <i data-lucide="lock" style="width:20px;height:20px"></i> Comprar Com Segurança
+                </button>
+
+                <div class="pricing-trust">
+                    <i data-lucide="shield" style="width:16px;height:16px"></i> Pagamento 100% seguro
+                </div>
+            </div>
+
+            <div class="guarantee-card" style="margin-top:48px">
+                <div class="guarantee-badge">7 DIAS</div>
+                <h2>Garantia de 7 Dias</h2>
+                <p>Se não gostar, devolvemos 100% do seu investimento. Sem perguntas. Sem burocracias.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section class="section section-faq">
+        <div class="container container-sm">
+            <span class="section-tag">DÚVIDAS COMUNS</span>
+            <h2>Perguntas Frequentes</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Preciso ter experiência anterior com anúncios?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Não! O curso começa do absoluto zero. Você vai aprender desde os conceitos básicos até estratégias avançadas, sem depender de conhecimento prévio.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Quanto tempo de acesso tenho?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Acesso vitalício! Uma vez que você compra, o conteúdo é seu para sempre. Você terá acesso a todas as atualizações futuras sem custos adicionais.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Qual plataforma será usada?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>O curso é 100% online em uma plataforma intuitiva. Você acessa de qualquer dispositivo (computador, tablet ou celular) 24/7.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Tenho suporte durante o curso?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sim! Todos os alunos têm acesso a uma comunidade privada onde você pode tirar dúvidas, compartilhar resultados e fazer networking com outros alunos.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>E se eu não gostar do curso?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sem problema! Você tem 7 dias para solicitar reembolso total. Não fazemos perguntas, devolvemos 100% do valor investido.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Quando começa?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Acesso imediato! Logo após a confirmação do pagamento, você recebe um e-mail com seus dados de acesso. Em segundos você já está assistindo as aulas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FINAL CTA ========== -->
+    <section class="section section-final-cta">
+        <div class="container container-sm">
+            <h2>Comece Sua Transformação Hoje</h2>
+            <p>Últimas vagas com 90% de desconto — oferta válida apenas até <strong id="countdownFinal" class="countdown-inline">00:00:00</strong></p>
+
+            <div class="final-cta-price">
+                <span>De</span>
+                <s>R$ 197,00</s>
+                <strong>R$ 19,90</strong>
+            </div>
+            <div class="final-cta-timer">⏳ Encerra em <span id="countdownTimer" class="countdown-inline">00:00:00</span></div>
+
+            <button class="btn btn-primary btn-lg btn-block" onclick="goToSection('#checkout')" style="max-width:400px;margin:32px auto 0;display:flex">
+                <i data-lucide="check" style="width:20px;height:20px"></i> Quero Meu Acesso Agora
+            </button>
+        </div>
+    </section>
+
+    <!-- ========== CHECKOUT ========== -->
+    <section class="section section-checkout" id="checkout">
+        <div class="container">
+            <h2 style="text-align:center;margin-bottom:48px">Finalize Sua Compra</h2>
+            
+            <div class="checkout-wrapper">
+                <!-- SIDEBAR -->
+                <aside class="checkout-sidebar">
+                    <h3>Seu Pedido</h3>
+                    <div class="checkout-product">
+                        <div class="checkout-product-icon"><i data-lucide="bar-chart-3" style="width:32px;height:32px;color:#1967d2"></i></div>
+                        <div>
+                            <strong>Curso Tráfego Pago</strong>
+                            <span>17 módulos completos</span>
+                        </div>
+                    </div>
+                    
+                    <div class="checkout-summary">
+                        <div class="summary-row">
+                            <span>Valor Original</span>
+                            <span>R$ 197,00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-discount">Desconto (90%)</span>
+                            <span class="summary-discount">-R$ 177,10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-total">
+                        Total: <strong>R$ 19,90</strong>
+                    </div>
+
+                    <div class="checkout-trust-badges">
+                        <div class="trust-badge">
+                            <i data-lucide="shield" style="width:16px;height:16px"></i>
+                            <span>Seguro e criptografado</span>
+                        </div>
+                        <div class="trust-badge">
+                            <i data-lucide="rotate-ccw" style="width:16px;height:16px"></i>
+                            <span>7 dias de garantia</span>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- FORM -->
+                <div class="checkout-form-wrap">
+                    <div class="checkout-steps">
+                        <div class="step active"><span>1</span> Dados</div>
+                        <div class="step"><span>2</span> Pagamento</div>
+                    </div>
+
+                    <h3>Seus Dados</h3>
+
+                    <form id="checkoutForm1">
+                        <div class="field">
+                            <label for="checkName">Nome Completo *</label>
+                            <input type="text" id="checkName" placeholder="João Silva" required>
+                            <div class="field-error" id="checkNameError"></div>
+                        </div>
+
+                        <div class="field">
+                            <label for="checkEmail">E-mail *</label>
+                            <input type="email" id="checkEmail" placeholder="seu@email.com" required>
+                            <div class="field-error" id="checkEmailError"></div>
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label for="checkPhone">WhatsApp *</label>
+                                <input type="tel" id="checkPhone" placeholder="(11) 98765-4321" required>
+                                <div class="field-error" id="checkPhoneError"></div>
+                            </div>
+                            <div class="field">
+                                <label for="checkCpf">CPF</label>
+                                <input type="text" id="checkCpf" placeholder="000.000.000-00">
+                                <div class="field-error" id="checkCpfError"></div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">
+                            <i data-lucide="arrow-right" style="width:20px;height:20px"></i> Continuar para Pagamento
+                        </button>
+                    </form>
+
+                    <div id="checkoutStep2" style="display:none">
+                        <h3>Forma de Pagamento</h3>
+
+                        <div class="payment-tabs">
+                            <button class="pay-tab active" data-method="pix" onclick="switchPayment('pix', this)">
+                                <i data-lucide="qr-code" style="width:18px;height:18px"></i> PIX
+                            </button>
+                            <button class="pay-tab" data-method="credit" onclick="switchPayment('credit', this)">
+                                <i data-lucide="credit-card" style="width:18px;height:18px"></i> Cartão
+                            </button>
+                        </div>
+
+                        <!-- PIX -->
+                        <div id="payPix" class="pay-body">
+                            <div class="pix-info">
+                                <p><strong>Pagamento via PIX</strong></p>
+                                <p>Rápido, seguro e sem taxas</p>
+                            </div>
+                            <button type="button" class="btn btn-success btn-block btn-lg" onclick="processPayment()">
+                                <i data-lucide="send" style="width:20px;height:20px"></i> Gerar QR Code PIX
+                            </button>
+                        </div>
+
+                        <!-- CARTÃO -->
+                        <div id="payCredit" class="pay-body" style="display:none">
+                            <div class="field">
+                                <label for="cardHolder">Titular do Cartão *</label>
+                                <input type="text" id="cardHolder" placeholder="JOÃO SILVA" style="text-transform:uppercase">
+                            </div>
+
+                            <div class="field">
+                                <label for="cardNumber">Número do Cartão *</label>
+                                <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000">
+                            </div>
+
+                            <div class="field-row">
+                                <div class="field">
+                                    <label for="expiry">Validade *</label>
+                                    <input type="text" id="expiry" placeholder="MM/YY">
+                                </div>
+                                <div class="field">
+                                    <label for="cvv">CVV *</label>
+                                    <input type="text" id="cvv" placeholder="000">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="installments">Parcelamento</label>
+                                <select id="installments">
+                                    <option value="1">1x R$ 19,90 (sem juros)</option>
+                                    <option value="2">2x R$ 10,00 (sem juros)</option>
+                                    <option value="3">3x R$ 6,80 (sem juros)</option>
+                                </select>
+                            </div>
+
+                            <button type="button" class="btn btn-success btn-block btn-lg" onclick="processPayment()">
+                                <i data-lucide="lock" style="width:20px;height:20px"></i> Confirmar Pagamento
+                            </button>
+                        </div>
+
+                        <button type="button" class="btn btn-ghost btn-block" onclick="checkoutBack()">
+                            <i data-lucide="arrow-left" style="width:20px;height:20px"></i> Voltar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PIX MODAL ========== -->
+    <div id="pixModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);flex-direction:column;align-items:center;justify-content:center;z-index:998;padding:20px">
+        <div style="background:#fff;border-radius:16px;padding:40px;max-width:520px;width:100%;text-align:center">
+            <h2 style="font-size:1.5rem;margin-bottom:8px;color:#111827">Escanear QR Code</h2>
+            <p style="color:#6b7280;margin-bottom:20px">Use seu app de banco para escanear o QR Code e confirmar o pagamento</p>
+            <img id="pixQrImg" style="max-width:280px;margin:20px auto;display:block" alt="QR Code PIX">
+            <div id="pixStatus" style="color:#6b7280;margin:20px 0">⏳ Aguardando pagamento...</div>
+            <div style="display:flex;gap:10px;margin:16px 0">
+                <input type="text" id="pixCopyCode" readonly style="flex:1;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px;font-family:monospace;font-size:.85rem">
+                <button onclick="copyPixCode()" style="padding:10px 16px;background:#f59e0b;color:#111827;border:none;border-radius:8px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copiar
+                </button>
+            </div>
+            <button onclick="closePixModal()" style="width:100%;padding:14px;background:#f59e0b;color:#111827;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:16px">
+                Fechar
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== FLOATING CTA ========== -->
+    <div class="floating-cta" id="floatingCta">
+        <div class="floating-cta-inner">
+            <div class="floating-cta-text">
+                <strong>R$ 19,90</strong> <s>R$ 197,00</s>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="goToSection('#checkout')">
+                Comprar Agora
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">TráfegoPago</div>
+            <p class="footer-copy">© 2026 Cursos Práticos. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Termos de Uso</a>
+                <a href="#">Contato</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
