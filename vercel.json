@@ -1,32 +1,20 @@
 {
-  "buildCommand": "cd backend && npm install",
+  "buildCommand": "npm install && cd api && npm install",
   "outputDirectory": "./ads",
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/server.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "env": {
-    "MP_ACCESS_TOKEN": "@mp_access_token",
-    "FRONTEND_URL": "@frontend_url",
-    "BACKEND_URL": "@backend_url",
-    "PRODUCT_PRICE": "@product_price",
-    "PRODUCT_NAME": "@product_name",
-    "PDF_URL": "@pdf_url",
-    "EMAILJS_SERVICE_ID": "@emailjs_service_id",
-    "EMAILJS_TEMPLATE_ID": "@emailjs_template_id",
-    "EMAILJS_PUBLIC_KEY": "@emailjs_public_key",
-    "EMAILJS_PRIVATE_KEY": "@emailjs_private_key"
-  },
   "functions": {
     "api/server.js": {
       "memory": 1024,
       "maxDuration": 60
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
