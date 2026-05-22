@@ -1,20 +1,24 @@
 {
-  "buildCommand": "npm install && cd api && npm install",
-  "outputDirectory": "./ads",
+  "buildCommand": "npm install",
+  "outputDirectory": ".",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/server.js"
+    },
+    {
+      "source": "/ads/(.*)",
+      "destination": "/ads/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
   "functions": {
     "api/server.js": {
       "memory": 1024,
       "maxDuration": 60
     }
-  },
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  }
 }

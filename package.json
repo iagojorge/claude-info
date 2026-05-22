@@ -1,15 +1,14 @@
 {
-  "name": "trafego-pago",
+  "name": "moises-courses-platform",
   "version": "1.0.0",
-  "description": "Curso Tráfego Pago - Plataforma de vendas com Mercado Pago",
+  "description": "Plataforma de vendas - Bikes Elétricas + Tráfego Pago",
   "type": "module",
-  "scripts": {
-    "dev": "cd backend && npm run dev",
-    "build": "cd backend && npm install",
-    "start": "cd backend && npm start"
-  },
   "engines": {
     "node": "18.x"
+  },
+  "scripts": {
+    "dev": "node api/server.js",
+    "start": "node api/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -18,3 +17,4 @@
     "mercadopago": "^2.0.11"
   }
 }
+
