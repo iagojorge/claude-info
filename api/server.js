@@ -57,8 +57,8 @@ app.get('/health', (req, res) => {
 });
 
 // ──────────────── ROTA: CRIAR PIX ────────────────
-// Nota: Vercel rewrite /api/payment/pix -> /api/server.js, então rota é /payment/pix
-app.post('/payment/pix', async (req, res) => {
+// Nota: Vercel pode passar como /payment/pix ou /api/payment/pix
+app.post(['/payment/pix', '/api/payment/pix'], async (req, res) => {
   console.log('📥 [PIX] Recebido:', { email: req.body.email, name: req.body.name });
   const { name, email, cpf } = req.body;
 
@@ -121,7 +121,7 @@ app.post('/payment/pix', async (req, res) => {
 });
 
 // ──────────────── ROTA: PAGAMENTO CARTÃO ────────────────
-app.post('/payment/card', async (req, res) => {
+app.post(['/payment/card', '/api/payment/card'], async (req, res) => {
   const { name, email, cpf, token, installments, payment_method_id, issuer_id } = req.body;
 
   if (!name || !email || !token) {
@@ -163,7 +163,7 @@ app.post('/payment/card', async (req, res) => {
 });
 
 // ──────────────── ROTA: CONSULTAR STATUS PAGAMENTO ────────────────
-app.get('/payment/:id/status', async (req, res) => {
+app.get(['/payment/:id/status', '/api/payment/:id/status'], async (req, res) => {
   try {
     const payment = await paymentClient.get({ id: req.params.id });
     return res.json({ payment_id: payment.id, status: payment.status });
@@ -174,7 +174,7 @@ app.get('/payment/:id/status', async (req, res) => {
 });
 
 // ──────────────── ROTA: WEBHOOK (notificações do MP) ────────────────
-app.post('/webhook', async (req, res) => {
+app.post(['/webhook', '/api/webhook'], async (req, res) => {
   res.sendStatus(200);
 
   const { type, data } = req.body;
