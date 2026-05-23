@@ -108,7 +108,7 @@ export default async function handler(req, res) {
       }
       
       // Extract payment ID from path: /123, /123/status, /123/123, etc
-      const segments = normalizedPath.split('/').filter(Boolean);
+      const segments = path.split('/').filter(Boolean);
       
       if (segments.length > 0) {
         const id = segments[0];
