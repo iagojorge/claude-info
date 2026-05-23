@@ -43,7 +43,7 @@ function isValidCPF(cpf) {
 }
 
 // ──────────────── PIX PAYMENT ────────────────
-app.post(['/api/payment/pix', '/payment/pix', '/pix'], async (req, res) => {
+const handlePixPayment = async (req, res) => {
   console.log('📥 PIX Request:', { email: req.body.email, name: req.body.name });
   
   const { name, email, cpf } = req.body;
@@ -101,10 +101,15 @@ app.post(['/api/payment/pix', '/payment/pix', '/pix'], async (req, res) => {
     console.error('❌ PIX Error:', err.message);
     res.status(500).json({ error: 'Erro: ' + err.message });
   }
-});
+};
+
+// Register PIX routes
+app.post('/api/payment/pix', handlePixPayment);
+app.post('/payment/pix', handlePixPayment);
+app.post('/pix', handlePixPayment);
 
 // ──────────────── CARD PAYMENT ────────────────
-app.post(['/api/payment/card', '/payment/card', '/card'], async (req, res) => {
+const handleCardPayment = async (req, res) => {
   const { name, email, cpf, token, installments } = req.body;
 
   if (!name || !email || !token) {
@@ -137,22 +142,39 @@ app.post(['/api/payment/card', '/payment/card', '/card'], async (req, res) => {
     console.error('❌ Card Error:', err.message);
     res.status(500).json({ error: 'Erro: ' + err.message });
   }
-});
+};
+
+// Register CARD routes
+app.post('/api/payment/card', handleCardPayment);
+app.post('/payment/card', handleCardPayment);
+app.post('/card', handleCardPayment);
 
 // ──────────────── STATUS ────────────────
-app.get(['/api/payment/:id/status', '/payment/:id/status', '/:id/status'], async (req, res) => {
+const handleStatusCheck = async (req, res) => {
   try {
     const payment = await paymentClient.get({ id: req.params.id });
     res.json({ payment_id: payment.id, status: payment.status });
   } catch (err) {
     res.status(500).json({ error: 'Erro ao consultar' });
   }
-});
+};
+
+// Register STATUS routes
+app.get('/api/payment/:id/status', handleStatusCheck);
+app.get('/payment/:id/status', handleStatusCheck);
+app.get('/:id/status', handleStatusCheck);
 
 // ──────────────── HEALTH ────────────────
-app.get(['/api/payment', '/api/health', '/api/payment/health', '/health', '/'], (req, res) => {
+const handleHealth = (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
+};
+
+// Register HEALTH routes
+app.get('/api/payment', handleHealth);
+app.get('/api/payment/health', handleHealth);
+app.get('/api/health', handleHealth);
+app.get('/health', handleHealth);
+app.get('/', handleHealth);
 
 // Catch-all para debug
 app.all('*', (req, res) => {
