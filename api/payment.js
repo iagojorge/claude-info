@@ -43,7 +43,7 @@ function isValidCPF(cpf) {
 }
 
 // ──────────────── PIX PAYMENT ────────────────
-app.post(['/pix', '/payment/pix', '/api/payment/pix'], async (req, res) => {
+app.post(['/api/payment/pix', '/payment/pix', '/pix'], async (req, res) => {
   console.log('📥 PIX Request:', { email: req.body.email, name: req.body.name });
   
   const { name, email, cpf } = req.body;
@@ -104,7 +104,7 @@ app.post(['/pix', '/payment/pix', '/api/payment/pix'], async (req, res) => {
 });
 
 // ──────────────── CARD PAYMENT ────────────────
-app.post(['/card', '/payment/card', '/api/payment/card'], async (req, res) => {
+app.post(['/api/payment/card', '/payment/card', '/card'], async (req, res) => {
   const { name, email, cpf, token, installments } = req.body;
 
   if (!name || !email || !token) {
@@ -140,7 +140,7 @@ app.post(['/card', '/payment/card', '/api/payment/card'], async (req, res) => {
 });
 
 // ──────────────── STATUS ────────────────
-app.get(['/:id/status', '/payment/:id/status', '/api/payment/:id/status'], async (req, res) => {
+app.get(['/api/payment/:id/status', '/payment/:id/status', '/:id/status'], async (req, res) => {
   try {
     const payment = await paymentClient.get({ id: req.params.id });
     res.json({ payment_id: payment.id, status: payment.status });
@@ -150,7 +150,7 @@ app.get(['/:id/status', '/payment/:id/status', '/api/payment/:id/status'], async
 });
 
 // ──────────────── HEALTH ────────────────
-app.get(['/', '/health', '/api/health'], (req, res) => {
+app.get(['/api/payment', '/api/health', '/api/payment/health', '/health', '/'], (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
