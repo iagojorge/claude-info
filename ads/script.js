@@ -40,6 +40,9 @@
     // Fallback
     return '';
   }
+  
+  // Exponibiliza globalmente
+  window.getBackendUrl = getBackendUrl;
 
   // ──────────────── MP INSTANCE ────────────────
   let mpInstance = null;
