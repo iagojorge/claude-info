@@ -1,15 +1,6 @@
 {
   "buildCommand": "npm install",
-  "functions": {
-    "api/payment.js": {
-      "maxDuration": 30
-    }
-  },
   "rewrites": [
-    {
-      "source": "/api/payment/(.*)",
-      "destination": "/api/payment.js"
-    },
     {
       "source": "/ads/(.*)",
       "destination": "/ads/index.html"
