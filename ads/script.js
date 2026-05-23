@@ -17,9 +17,27 @@
 
   // ──────────────── BACKEND URL ────────────────
   function getBackendUrl() {
-    if (window.ENV && window.ENV.BACKEND_URL !== undefined) return window.ENV.BACKEND_URL;
-    var h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1') return 'http://localhost:3002';
+    // Primeiro tenta usar ENV do config.js
+    if (window.ENV && window.ENV.BACKEND_URL) {
+      return window.ENV.BACKEND_URL.replace(/\/$/, ''); // Remove trailing slash
+    }
+    
+    // Se não tiver ENV, detecta automaticamente
+    const h = window.location.hostname;
+    const p = window.location.pathname;
+    
+    // Localhost: retorna porta 3001 (backend de desenvolvimento)
+    if (h === 'localhost' || h === '127.0.0.1') {
+      return 'http://localhost:3001';
+    }
+    
+    // Vercel/Producción: retorna mesmo domínio (a API está em /api)
+    if (h.includes('vercel.app') || h.includes('.com.br')) {
+      const protocol = window.location.protocol;
+      return `${protocol}//${h}`.replace(/\/$/, '');
+    }
+    
+    // Fallback
     return '';
   }
 
