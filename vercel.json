@@ -3,6 +3,10 @@
   "outputDirectory": ".",
   "rewrites": [
     {
+      "source": "/api/payment/(.*)",
+      "destination": "/api/payment.js"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/server.js"
     },
@@ -15,19 +19,12 @@
       "destination": "/index.html"
     }
   ],
-  "headers": [
-    {
-      "source": "/(.*)\\.js$",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        }
-      ]
-    }
-  ],
   "functions": {
     "api/server.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/payment.js": {
       "memory": 1024,
       "maxDuration": 60
     }
