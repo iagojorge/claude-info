@@ -12,7 +12,7 @@ const ENV = {
   // ── Mercado Pago ─────────────────────────────
   MP_PUBLIC_KEY: 'APP_USR-2f88649b-6a83-433b-af3c-613c1f8b1d23',
 
-  // URL do backend (detecta automáticamente)
+  // URL do backend (repositório separado)
   BACKEND_URL: (() => {
     if (typeof window === 'undefined') return 'http://localhost:3001';
     
@@ -23,9 +23,14 @@ const ENV = {
       return 'http://localhost:3001';
     }
     
-    // Vercel deployment - mesmo domínio
-    if (hostname.includes('vercel.app') || hostname.includes('.com.br')) {
-      return `${protocol}//${hostname}`;
+    // Vercel: Backend em domínio separado (claude-info-back.vercel.app)
+    if (hostname.includes('vercel.app')) {
+      return 'https://claude-info-back.vercel.app';
+    }
+    
+    // Domínios customizados
+    if (hostname.includes('.com.br')) {
+      return 'https://api.moises-platform.com.br';
     }
     
     return 'http://localhost:3001';

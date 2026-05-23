@@ -1,31 +1,22 @@
-# 🎓 Tráfego Pago - Plataforma de Vendas
+# 🎓 Moises Platform - Frontend
 
-Plataforma de e-learning para o curso "Tráfego Pago: Guia Completo" com integração de pagamentos via Mercado Pago.
+Frontend para plataforma de vendas de cursos online (Bikes Elétricas + Tráfego Pago)
 
-## 🚀 Quick Start
+## 🚀 URLs de Acesso
 
-### **Local Development**
-```bash
-# Frontend
-cd ads && python -m http.server 5500
-
-# Backend (em outro terminal)
-cd backend && npm install && npm run dev
-```
-
-Frontend: http://localhost:5500  
-Backend: http://localhost:3002
-
-### **Deploy na Vercel** (RECOMENDADO)
-Veja [VERCEL_DEPLOY.md](./VERCEL_DEPLOY.md) para instruções completas.
-
----
+- **Frontend Principal**: https://claude-info.vercel.app/
+- **Frontend Ads**: https://claude-info.vercel.app/ads/
+- **Backend API**: https://claude-info-back.vercel.app/api/*
 
 ## 📁 Estrutura do Projeto
 
 ```
 .
-├── ads/                 # Frontend - Landing Page
+├── index.html           # Frontend Principal (Bikes Elétricas)
+├── script.js            # Scripts Frontend Principal
+├── styles.css           # Estilos Frontend Principal
+├── config.js            # Configurações globais
+├── ads/                 # Frontend - Tráfego Pago
 │   ├── index.html       # Página principal
 │   ├── script.js        # Lógica JavaScript
 │   ├── styles.css       # Estilos
