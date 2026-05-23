@@ -28,12 +28,14 @@ const parseBody = (body) => {
 };
 
 export default async function handler(req, res) {
-  // CORS
+  // CORS - Apply to ALL responses immediately
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Content-Type', 'application/json');
-
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  res.setHeader('Access-Control-Max-Age', '3600');
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  
+  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -43,11 +45,14 @@ export default async function handler(req, res) {
     // Extract path from URL - remove query string and /api/payment prefix
     const urlPath = new URL(req.url || '/', 'https://example.com').pathname;
     const path = urlPath.replace(/^\/api\/payment/, '') || '/';
+    
+    // Normalize path
+    const normalizedPath = path.toLowerCase().trim();
 
-    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`, { urlPath });
+    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${normalizedPath}`, { urlPath, body: JSON.stringify(body).substring(0, 50) });
 
-    // PIX Payment
-    if ((path === '/pix' || path === '') && req.method === 'POST') {
+    // ──────────────── PIX Payment ────────────────
+    if ((normalizedPath === '/pix' || normalizedPath === '/' || normalizedPath === '') && req.method === 'POST') {
       const { name, email, cpf } = body;
       if (!name || !email) return res.status(400).json({ error: 'Nome e e-mail obrigatórios' });
       if (cpf && !isValidCPF(cpf)) return res.status(400).json({ error: 'CPF inválido' });
@@ -66,7 +71,7 @@ export default async function handler(req, res) {
           payment_id: payment.id,
           status: payment.status || 'pending',
           qr_code: payment.point_of_interaction?.qr_code?.in_store_order_id || payment.point_of_interaction?.qr_code?.qr_code || payment.qr_code,
-          qr_code_base64: payment.point_of_interaction?.qr_code?.qr_code_base64
+          qr_code_base64: payment.point_of_interaction?.qr_code?.qr_code_base64 || null
         });
       } catch (err) {
         console.error('PIX Error:', err.message);
@@ -74,8 +79,8 @@ export default async function handler(req, res) {
       }
     }
 
-    // CARD Payment
-    if ((path === '/card') && req.method === 'POST') {
+    // ──────────────── CARD Payment ────────────────
+    if ((normalizedPath === '/card') && req.method === 'POST') {
       const { name, email, token, installments } = body;
       if (!name || !email || !token) return res.status(400).json({ error: 'Dados incompletos' });
 
@@ -98,28 +103,33 @@ export default async function handler(req, res) {
       }
     }
 
-    // STATUS GET
+    // ──────────────── STATUS / Health GET ────────────────
     if (req.method === 'GET') {
-      if (!path || path === '/' || path === '/health') {
+      // Health check endpoints
+      if (normalizedPath === '/' || normalizedPath === '/health' || normalizedPath === '') {
         return res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
       }
       
-      // Extract ID from /123/status or just /123
-      const segments = path.split('/').filter(Boolean);
-      const id = segments[0];
+      // Extract payment ID from path: /123, /123/status, /123/123, etc
+      const segments = normalizedPath.split('/').filter(Boolean);
       
-      if (id && id !== 'health' && id !== 'status') {
-        try {
-          const payment = await paymentClient.get({ id });
-          return res.status(200).json({ payment_id: payment.id, status: payment.status });
-        } catch (err) {
-          console.error('STATUS Error:', err.message);
-          return res.status(500).json({ error: 'Status error' });
+      if (segments.length > 0) {
+        const id = segments[0];
+        // If first segment is a number, treat it as payment ID
+        if (/^\d+$/.test(id)) {
+          console.log(`Fetching status for payment ID: ${id}`);
+          try {
+            const payment = await paymentClient.get({ id });
+            return res.status(200).json({ payment_id: payment.id, status: payment.status });
+          } catch (err) {
+            console.error('STATUS Error:', err.message);
+            return res.status(404).json({ error: 'Payment not found', id });
+          }
         }
       }
     }
 
-    return res.status(404).json({ error: 'Not found', path, method: req.method });
+    return res.status(404).json({ error: 'Not found', path: normalizedPath, method: req.method });
   } catch (err) {
     console.error('Handler Error:', err);
     return res.status(500).json({ error: 'Server error', msg: err.message });
