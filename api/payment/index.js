@@ -178,6 +178,7 @@ app.get('/api/payment', handleHealth);
 app.get('/api/payment/health', handleHealth);
 app.get('/api/health', handleHealth);
 app.get('/health', handleHealth);
+app.get('/test', (req, res) => res.json({ message: 'Test endpoint OK' }));
 app.get('/', handleHealth);
 
 // Catch-all para debug
