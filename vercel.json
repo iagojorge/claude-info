@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/api/payment/(.*)",
-      "destination": "/api/payment"
+      "destination": "/api/payment/index.js"
     },
     {
       "source": "/api/(.*)",
@@ -20,7 +20,7 @@
     }
   ],
   "functions": {
-    "api/payment": {
+    "api/payment/index.js": {
       "memory": 1024,
       "maxDuration": 60
     },
