@@ -63,34 +63,34 @@ const handlePixPayment = async (req, res) => {
       description: process.env.PRODUCT_NAME || 'Curso',
       payment_method_id: 'pix',
       payer: {
-        email,
-        first_name: name.split(' ')[0] || 'Cliente',
-        last_name: name.split(' ').slice(1).join(' ') || '-',
-        identification: cpfDigits ? { type: 'CPF', number: cpfDigits } : undefined
+        email: email,
+        identification: {
+          type: 'CPF',
+          number: cpfDigits
+        }
       }
     };
 
+    console.log('📤 Creating Mercado Pago PIX payment...');
     const payment = await paymentClient.create({ body });
-    console.log('✅ PIX criado:', payment.id);
 
-    let qrCode = '';
-    let qrCodeBase64 = '';
+    let qrCode = null;
+    let qrCodeBase64 = null;
 
-    if (payment.point_of_interaction?.qr_code?.content) {
-      qrCode = payment.point_of_interaction.qr_code.content;
-    }
-    if (payment.point_of_interaction?.transaction_data?.qr_code) {
-      qrCode = payment.point_of_interaction.transaction_data.qr_code;
-    }
-    if (payment.point_of_interaction?.transaction_data?.qr_code_base64) {
-      qrCodeBase64 = payment.point_of_interaction.transaction_data.qr_code_base64;
+    if (payment.point_of_interaction?.qr_code?.in_store_order_id) {
+      qrCode = payment.point_of_interaction.qr_code.in_store_order_id;
+    } else if (payment.point_of_interaction?.qr_code?.qr_code) {
+      qrCode = payment.point_of_interaction.qr_code.qr_code;
     }
 
-    if (!qrCode && !qrCodeBase64) {
-      return res.status(500).json({ error: 'Erro ao gerar PIX' });
+    if (payment.point_of_interaction?.qr_code?.qr_code_base64) {
+      qrCodeBase64 = payment.point_of_interaction.qr_code.qr_code_base64;
+    } else if (payment.qr_code) {
+      qrCode = payment.qr_code;
     }
 
-    return res.json({
+    console.log('✅ PIX Payment created:', { id: payment.id, status: payment.status });
+    res.json({
       payment_id: payment.id,
       status: payment.status || 'pending',
       qr_code: qrCode,
@@ -124,10 +124,11 @@ const handleCardPayment = async (req, res) => {
       installments: installments || 1,
       payment_method_id: 'credit_card',
       payer: {
-        email,
-        first_name: name.split(' ')[0],
-        last_name: name.split(' ').slice(1).join(' ') || '-',
-        identification: cpf ? { type: 'CPF', number: cpf.replace(/\D/g, '') } : undefined
+        email: email,
+        identification: {
+          type: 'CPF',
+          number: cpf.replace(/\D/g, '')
+        }
       }
     };
 
