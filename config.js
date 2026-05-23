@@ -14,7 +14,7 @@ const ENV = {
 
   // URL do backend (repositório separado)
   BACKEND_URL: (() => {
-    if (typeof window === 'undefined') return 'http://localhost:3001';
+    if (typeof window === 'undefined') return 'https://claude-info-back.vercel.app';
     
     const { hostname, protocol } = window.location;
     
@@ -33,7 +33,8 @@ const ENV = {
       return 'https://api.moises-platform.com.br';
     }
     
-    return 'http://localhost:3001';
+    // Padrão para file:// ou teste local
+    return 'https://claude-info-back.vercel.app';
   })()
 };
 
