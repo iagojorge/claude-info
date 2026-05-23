@@ -28,36 +28,27 @@ const parseBody = (body) => {
 };
 
 export default async function handler(req, res) {
-  // CORS - Apply to ALL responses immediately
+  // CORS - Apply FIRST
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
   res.setHeader('Access-Control-Max-Age', '3600');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   
-  // Handle preflight
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
     const body = parseBody(req.body);
-    // Extract path from URL only
-    const urlPath = new URL(req.url || '/', 'https://example.com').pathname;
-    // Remove /api/payment prefix to get the sub-path
-    let path = urlPath.replace(/^\/api\/payment/, '') || '/';
-    // Remove query string and normalize
-    path = path.split('?')[0].toLowerCase().trim();
-    
-    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`, { 
-      urlPath,
-      url: req.url,
-      path,
-      method: req.method 
-    });
+    // Extract path from req.url which includes everything after /api/payment
+    const url = new URL(req.url || '/', 'https://api.example.com');
+    let path = url.pathname || '/';
+    // Path will be like "/pix", "/160642554462", "/160642554462/status", etc
+    path = path.toLowerCase().trim();
+
+    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`);
 
     // ──────────────── PIX Payment ────────────────
-    if ((path === '/pix' || path === '/' || path === '') && req.method === 'POST') {
+    if ((path === '/pix' || path === '' || path === '/') && req.method === 'POST') {
       const { name, email, cpf } = body;
       if (!name || !email) return res.status(400).json({ error: 'Nome e e-mail obrigatórios' });
       if (cpf && !isValidCPF(cpf)) return res.status(400).json({ error: 'CPF inválido' });
@@ -110,31 +101,25 @@ export default async function handler(req, res) {
 
     // ──────────────── STATUS / Health GET ────────────────
     if (req.method === 'GET') {
-      // Health check endpoints
-      if (path === '/' || path === '/health' || path === '') {
+      if (path === '' || path === '/' || path === '/health') {
         return res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
       }
       
-      // Extract payment ID from path: /123, /123/status, /123/123, etc
+      // Extract ID from path like "/160642554462" or "/160642554462/status"
       const segments = path.split('/').filter(Boolean);
-      
-      if (segments.length > 0) {
+      if (segments.length > 0 && /^\d+$/.test(segments[0])) {
         const id = segments[0];
-        // If first segment is a number, treat it as payment ID
-        if (/^\d+$/.test(id)) {
-          console.log(`Fetching status for payment ID: ${id}`);
-          try {
-            const payment = await paymentClient.get({ id });
-            return res.status(200).json({ payment_id: payment.id, status: payment.status });
-          } catch (err) {
-            console.error('STATUS Error:', err.message);
-            return res.status(404).json({ error: 'Payment not found', id });
-          }
+        try {
+          const payment = await paymentClient.get({ id });
+          return res.status(200).json({ payment_id: payment.id, status: payment.status });
+        } catch (err) {
+          console.error('STATUS Error:', err.message);
+          return res.status(404).json({ error: 'Payment not found', id });
         }
       }
     }
 
-    return res.status(404).json({ error: 'Not found', path: path, method: req.method });
+    return res.status(404).json({ error: 'Not found', path });
   } catch (err) {
     console.error('Handler Error:', err);
     return res.status(500).json({ error: 'Server error', msg: err.message });
