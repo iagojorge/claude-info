@@ -1,8 +1,14 @@
 {
   "buildCommand": "npm install",
+  "functions": {
+    "api/payment/[...slug].js": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     {
-      "source": "/ads/(.*)",
+      "source": "/ads/:path*",
       "destination": "/ads/index.html"
     }
   ]
