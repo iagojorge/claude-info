@@ -1,0 +1,10 @@
+# .vercelignore
+.git
+.gitignore
+node_modules
+.env.example
+VERCEL_DEPLOY.md
+VERCEL_FINAL.md
+TESTING_GUIDE.md
+README.md
+backend/
