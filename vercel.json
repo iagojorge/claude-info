@@ -1,5 +1,4 @@
 {
-  "buildCommand": "npm install",
   "rewrites": [
     {
       "source": "/ads/:path*",
