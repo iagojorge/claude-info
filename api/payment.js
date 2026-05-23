@@ -21,6 +21,12 @@ app.use(cors({
   allowedHeaders: ['Content-Type']
 }));
 
+// Debug logging
+app.use((req, res, next) => {
+  console.log(`[DEBUG] ${req.method} ${req.path} | originalUrl: ${req.originalUrl}`);
+  next();
+});
+
 // ──────────────── VALIDAÇÃO CPF ────────────────
 function isValidCPF(cpf) {
   const digits = cpf.replace(/\D/g, '');
@@ -146,6 +152,16 @@ app.get(['/:id/status', '/payment/:id/status', '/api/payment/:id/status'], async
 // ──────────────── HEALTH ────────────────
 app.get(['/', '/health', '/api/health'], (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Catch-all para debug
+app.all('*', (req, res) => {
+  res.status(405).json({ 
+    error: 'Method Not Allowed',
+    method: req.method,
+    path: req.path,
+    originalUrl: req.originalUrl
+  });
 });
 
 export default app;
