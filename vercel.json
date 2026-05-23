@@ -1,6 +1,5 @@
 {
   "buildCommand": "npm install",
-  "outputDirectory": ".",
   "rewrites": [
     {
       "source": "/api/payment/(.*)",
@@ -21,10 +20,12 @@
   ],
   "functions": {
     "api/payment/index.js": {
+      "runtime": "nodejs20.x",
       "memory": 1024,
       "maxDuration": 60
     },
     "api/server.js": {
+      "runtime": "nodejs20.x",
       "memory": 1024,
       "maxDuration": 60
     }
