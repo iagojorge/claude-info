@@ -40,10 +40,11 @@ export default async function handler(req, res) {
 
   try {
     const body = parseBody(req.body);
-    const slug = req.query.slug || [];
-    const path = Array.isArray(slug) ? '/' + slug.join('/') : '/' + slug;
+    // Extract path from URL - remove query string and /api/payment prefix
+    const urlPath = new URL(req.url || '/', 'https://example.com').pathname;
+    const path = urlPath.replace(/^\/api\/payment/, '') || '/';
 
-    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`);
+    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`, { urlPath });
 
     // PIX Payment
     if ((path === '/pix' || path === '') && req.method === 'POST') {
