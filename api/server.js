@@ -4,6 +4,9 @@ import { MercadoPagoConfig, Payment } from 'mercadopago';
 
 const app = express();
 
+// Log de início
+console.log('🚀 Server iniciando...');
+
 // ──────────────── CONFIGURAÇÃO ────────────────
 const mpClient = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN,
@@ -25,26 +28,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// CORS - Permite ambos os frontends
+// CORS - Libera todos os origins
 app.use(cors({
-  origin: function (origin, callback) {
-    const allowed = [
-      'https://moises.vercel.app',
-      'https://claude-info.vercel.app',
-      'http://localhost:3000',
-      'http://localhost:5500',
-      'http://localhost:8000',
-      'http://127.0.0.1:5500'
-    ];
-    if (!origin || allowed.includes(origin)) return callback(null, true);
-    // Em dev, libera qualquer origin
-    if (process.env.NODE_ENV === 'development') {
-      return callback(null, true);
-    }
-    return callback(new Error('CORS: origem não permitida'));
-  },
+  origin: '*',
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
 }));
 app.options('*', cors());
 
@@ -68,7 +57,9 @@ app.get('/health', (req, res) => {
 });
 
 // ──────────────── ROTA: CRIAR PIX ────────────────
-app.post('/api/payment/pix', async (req, res) => {
+// Nota: Vercel rewrite /api/payment/pix -> /api/server.js, então rota é /payment/pix
+app.post('/payment/pix', async (req, res) => {
+  console.log('📥 [PIX] Recebido:', { email: req.body.email, name: req.body.name });
   const { name, email, cpf } = req.body;
 
   if (!name || !email) {
@@ -76,7 +67,7 @@ app.post('/api/payment/pix', async (req, res) => {
   }
 
   const cpfDigits = (cpf || '').replace(/\D/g, '');
-  if (!isValidCPF(cpfDigits)) {
+  if (cpf && !isValidCPF(cpfDigits)) {
     return res.status(400).json({ error: 'CPF inválido. Verifique o número digitado.' });
   }
 
@@ -89,21 +80,18 @@ app.post('/api/payment/pix', async (req, res) => {
         email,
         first_name: name.split(' ')[0],
         last_name: name.split(' ').slice(1).join(' ') || '-',
-        identification: { type: 'CPF', number: cpfDigits }
+        identification: cpfDigits ? { type: 'CPF', number: cpfDigits } : undefined
       }
     };
 
-    console.log('Criando PIX:', cpfDigits.substring(0, 3) + '***');
+    console.log('🔄 [PIX] Criando com MP...');
     const payment = await paymentClient.create({ body });
-    console.log('MP PIX response:', JSON.stringify(payment, null, 2));
+    console.log('✅ [PIX] Criado ID:', payment.id);
 
-    // Trata diferentes estruturas de resposta do Mercado Pago
+    // Extrai QR code
     let qrCode = '';
     let qrCodeBase64 = '';
 
-    if (payment.point_of_interaction?.qr_code?.in_store_order_id) {
-      qrCode = payment.point_of_interaction.qr_code.in_store_order_id;
-    }
     if (payment.point_of_interaction?.qr_code?.content) {
       qrCode = payment.point_of_interaction.qr_code.content;
     }
@@ -114,32 +102,26 @@ app.post('/api/payment/pix', async (req, res) => {
       qrCodeBase64 = payment.point_of_interaction.transaction_data.qr_code_base64;
     }
 
-    // Se não conseguir QR code, erro
     if (!qrCode && !qrCodeBase64) {
-      console.error('Erro: Nenhum QR code retornado pela API MP. Response:', payment);
-      return res.status(500).json({ 
-        error: 'Erro ao gerar PIX: resposta incompleta do processador',
-        payment_id: payment.id || null
-      });
+      console.error('❌ [PIX] Sem QR code:', JSON.stringify(payment));
+      return res.status(500).json({ error: 'Erro ao gerar PIX' });
     }
 
-    return res.status(200).json({
+    return res.json({
       payment_id: payment.id,
       status: payment.status || 'pending',
       qr_code: qrCode,
       qr_code_base64: qrCodeBase64,
-      expires_at: payment.date_of_expiration || null,
-      message: 'PIX criado com sucesso'
+      expires_at: payment.date_of_expiration
     });
   } catch (err) {
-    const mpMsg = err?.cause?.[0]?.description || err?.message || 'desconhecido';
-    console.error('Erro ao criar PIX:', mpMsg, 'Full error:', err);
-    return res.status(500).json({ error: `Erro ao processar PIX: ${mpMsg}` });
+    console.error('❌ [PIX] Erro:', err.message);
+    return res.status(500).json({ error: 'Erro ao processar PIX: ' + err.message });
   }
 });
 
 // ──────────────── ROTA: PAGAMENTO CARTÃO ────────────────
-app.post('/api/payment/card', async (req, res) => {
+app.post('/payment/card', async (req, res) => {
   const { name, email, cpf, token, installments, payment_method_id, issuer_id } = req.body;
 
   if (!name || !email || !token) {
@@ -175,24 +157,24 @@ app.post('/api/payment/card', async (req, res) => {
       });
     }
   } catch (err) {
-    console.error('Erro no pagamento com cartão:', err);
+    console.error('❌ [CARD] Erro:', err.message);
     return res.status(500).json({ error: 'Erro ao processar cartão. Tente novamente.' });
   }
 });
 
 // ──────────────── ROTA: CONSULTAR STATUS PAGAMENTO ────────────────
-app.get('/api/payment/:id/status', async (req, res) => {
+app.get('/payment/:id/status', async (req, res) => {
   try {
     const payment = await paymentClient.get({ id: req.params.id });
     return res.json({ payment_id: payment.id, status: payment.status });
   } catch (err) {
-    console.error('Erro ao consultar pagamento:', err);
+    console.error('❌ [STATUS] Erro:', err.message);
     return res.status(500).json({ error: 'Erro ao consultar pagamento.' });
   }
 });
 
 // ──────────────── ROTA: WEBHOOK (notificações do MP) ────────────────
-app.post('/api/webhook', async (req, res) => {
+app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
 
   const { type, data } = req.body;
@@ -204,11 +186,11 @@ app.post('/api/webhook', async (req, res) => {
     if (payment.status === 'approved') {
       const payerEmail = payment.payer?.email;
       const payerName = payment.payer?.first_name;
-      console.log(`✅ Pagamento aprovado! ID: ${payment.id}`);
+      console.log(`✅ [WEBHOOK] Pagamento ${payment.id} aprovado!`);
       await notifyCustomer(payerEmail, payerName, payment.id);
     }
   } catch (err) {
-    console.error('Erro ao processar webhook:', err);
+    console.error('❌ [WEBHOOK] Erro:', err.message);
   }
 });
 
@@ -253,154 +235,4 @@ async function notifyCustomer(email, name, paymentId) {
 }
 
 // ──────────────── EXPORTAR PARA VERCEL ────────────────
-export default app;
-
-
-// Helper: Send email via EmailJS
-async function notifyCustomer(email, name, pdfUrl) {
-  try {
-    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        service_id: process.env.EMAILJS_SERVICE_ID,
-        template_id: process.env.EMAILJS_TEMPLATE_ID,
-        user_id: process.env.EMAILJS_PUBLIC_KEY,
-        template_params: {
-          to_email: email,
-          to_name: name,
-          pdf_url: pdfUrl,
-          course_name: process.env.PRODUCT_NAME || 'Curso Tráfego Pago'
-        }
-      })
-    });
-    return response.ok;
-  } catch (error) {
-    console.error('Email error:', error);
-    return false;
-  }
-}
-
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
-// PIX Payment
-app.post('/api/payment/pix', async (req, res) => {
-  try {
-    const { email, name, cpf, phone } = req.body;
-
-    if (!isValidCPF(cpf)) {
-      return res.status(400).json({ error: 'CPF inválido' });
-    }
-
-    const payment = await mercadopago.payment.create({
-      transaction_amount: parseFloat(process.env.PRODUCT_PRICE || '19.90'),
-      description: process.env.PRODUCT_NAME,
-      payment_method_id: 'pix',
-      payer: {
-        email,
-        first_name: name.split(' ')[0],
-        last_name: name.split(' ').slice(1).join(' '),
-        identification: {
-          type: 'CPF',
-          number: cpf.replace(/\D/g, '')
-        }
-      }
-    });
-
-    res.json({
-      id: payment.body.id,
-      qr_code: payment.body.point_of_interaction?.qr_code?.in_store_order_id || '',
-      status: payment.body.status
-    });
-  } catch (error) {
-    console.error('PIX Error:', error);
-    res.status(500).json({ error: 'Erro ao processar pagamento PIX' });
-  }
-});
-
-// Card Payment
-app.post('/api/payment/card', async (req, res) => {
-  try {
-    const { email, name, cpf, token, installments } = req.body;
-
-    const payment = await mercadopago.payment.create({
-      transaction_amount: parseFloat(process.env.PRODUCT_PRICE || '19.90'),
-      token,
-      description: process.env.PRODUCT_NAME,
-      installments: parseInt(installments) || 1,
-      payment_method_id: 'credit_card',
-      payer: {
-        email,
-        first_name: name.split(' ')[0],
-        last_name: name.split(' ').slice(1).join(' '),
-        identification: {
-          type: 'CPF',
-          number: cpf.replace(/\D/g, '')
-        }
-      }
-    });
-
-    res.json({
-      id: payment.body.id,
-      status: payment.body.status,
-      status_detail: payment.body.status_detail
-    });
-  } catch (error) {
-    console.error('Card Error:', error);
-    res.status(500).json({ error: 'Erro ao processar cartão' });
-  }
-});
-
-// Check payment status
-app.get('/api/payment/:id/status', async (req, res) => {
-  try {
-    const payment = await mercadopago.payment.findById(req.params.id);
-    res.json({
-      id: payment.body.id,
-      status: payment.body.status,
-      status_detail: payment.body.status_detail
-    });
-  } catch (error) {
-    console.error('Status Error:', error);
-    res.status(500).json({ error: 'Erro ao consultar pagamento.' });
-  }
-});
-
-// Webhook
-app.post('/api/webhook', async (req, res) => {
-  try {
-    const { data, type } = req.body;
-
-    if (type === 'payment' && data?.id) {
-      const payment = await mercadopago.payment.findById(data.id);
-
-      if (payment.body.status === 'approved') {
-        const { email, first_name } = payment.body.payer;
-        await notifyCustomer(email, first_name, process.env.PDF_URL);
-      }
-    }
-
-    res.json({ received: true });
-  } catch (error) {
-    console.error('Webhook Error:', error);
-    res.status(500).json({ error: 'Erro ao processar webhook' });
-  }
-});
-
-// 404
-app.use((req, res) => {
-  res.status(404).json({ error: 'Rota não encontrada' });
-});
-
-// Error handler
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ error: 'Erro interno do servidor' });
-});
-
 export default app;
