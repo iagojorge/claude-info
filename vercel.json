@@ -2,14 +2,6 @@
   "buildCommand": "npm install",
   "rewrites": [
     {
-      "source": "/api/payment/(.*)",
-      "destination": "/api/payment/index.js"
-    },
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/server.js"
-    },
-    {
       "source": "/ads/(.*)",
       "destination": "/ads/index.html"
     },
@@ -17,17 +9,5 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "functions": {
-    "api/payment/index.js": {
-      "runtime": "nodejs20.x",
-      "memory": 1024,
-      "maxDuration": 60
-    },
-    "api/server.js": {
-      "runtime": "nodejs20.x",
-      "memory": 1024,
-      "maxDuration": 60
-    }
-  }
+  ]
 }
