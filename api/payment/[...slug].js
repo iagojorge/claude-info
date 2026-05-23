@@ -42,11 +42,27 @@ export default async function handler(req, res) {
 
   try {
     const body = parseBody(req.body);
-    // Extract path from URL - remove query string and /api/payment prefix
-    const urlPath = new URL(req.url || '/', 'https://example.com').pathname;
-    const path = (urlPath.replace(/^\/api\/payment/, '') || '/').toLowerCase().trim();
+    // Extract path from URL - handle req.query.slug from dynamic routes
+    let path = '';
     
-    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`, { urlPath, path, method: req.method });
+    // Try query.slug first (Vercel dynamic route)
+    if (req.query && req.query.slug) {
+      const slugArray = Array.isArray(req.query.slug) ? req.query.slug : [req.query.slug];
+      path = '/' + slugArray.join('/');
+    } else {
+      // Fallback to URL extraction
+      const urlPath = new URL(req.url || '/', 'https://example.com').pathname;
+      path = (urlPath.replace(/^\/api\/payment/, '') || '/');
+    }
+    
+    path = path.toLowerCase().trim();
+    
+    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`, { 
+      slug: req.query?.slug,
+      url: req.url,
+      path,
+      method: req.method 
+    });
 
     // ──────────────── PIX Payment ────────────────
     if ((path === '/pix' || path === '/' || path === '') && req.method === 'POST') {
