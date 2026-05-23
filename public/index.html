@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moises - Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; margin-bottom: 20px; }
+        .status { padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .ok { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .pending { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        ul { margin-left: 20px; }
+        li { margin: 8px 0; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Moises Platform</h1>
+        <div class="status ok">
+            <strong>✓ Platform is live</strong>
+        </div>
+        
+        <h2>Frontend</h2>
+        <ul>
+            <li><a href="/">Frontend Principal</a> - Bikes Elétricas</li>
+            <li><a href="/ads/">Frontend Anúncios</a> - Tráfego Pago</li>
+        </ul>
+        
+        <h2>API Backend</h2>
+        <div class="status pending">
+            <strong>! API Status: </strong> <span id="api-status">Checking...</span>
+        </div>
+        <ul>
+            <li><code>/api/health</code> - Health check</li>
+            <li><code>POST /api/payment/pix</code> - Criar pagamento PIX</li>
+            <li><code>POST /api/payment/card</code> - Criar pagamento Cartão</li>
+            <li><code>GET /api/payment/{id}</code> - Status do pagamento</li>
+        </ul>
+        
+        <script>
+            // Test API
+            fetch('/api/health')
+                .then(r => r.json())
+                .then(d => {
+                    document.getElementById('api-status').textContent = '✓ Connected';
+                    document.querySelector('.pending').className = 'status ok';
+                })
+                .catch(e => {
+                    document.getElementById('api-status').textContent = '✗ Offline (' + e.message + ')';
+                });
+        </script>
+    </div>
+</body>
+</html>

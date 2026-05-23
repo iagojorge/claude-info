@@ -1,8 +1,17 @@
 {
-  "rewrites": [
-    {
-      "source": "/ads/:path*",
-      "destination": "/ads/index.html"
-    }
+  "public": ".",
+  "builds": [
+    { "src": "/api/**/*.js", "use": "@vercel/node" },
+    { "src": "/index.html", "use": "@vercel/static" },
+    { "src": "/ads/index.html", "use": "@vercel/static" },
+    { "src": "/config.js", "use": "@vercel/static" },
+    { "src": "/script.js", "use": "@vercel/static" },
+    { "src": "/styles.css", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/ads/(.*)", "dest": "/ads/$1" },
+    { "src": "/ads", "dest": "/ads/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
