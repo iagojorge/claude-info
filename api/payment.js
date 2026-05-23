@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     const urlPath = new URL(req.url || '/', 'https://example.com').pathname;
     const path = (urlPath.replace(/^\/api\/payment/, '') || '/').toLowerCase().trim();
     
-    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`);
+    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`, { urlPath, path, method: req.method });
 
     // ──────────────── PIX Payment ────────────────
     if ((path === '/pix' || path === '/' || path === '') && req.method === 'POST') {
