@@ -478,9 +478,20 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: order.name, email: order.email, cpf: order.cpf })
         });
-        const d = await r.json();
-        if (!r.ok) throw new Error(d.error || 'Erro ao gerar PIX.');
-        showPixModal(d.qr_code_base64, d.qr_code, d.payment_id, order);
+        
+        let d;
+        try {
+          d = await r.json();
+        } catch (e) {
+          console.error('Erro ao parsear resposta JSON:', e, 'Status:', r.status);
+          throw new Error('Resposta inválida do servidor. Tente novamente.');
+        }
+        
+        if (!r.ok) throw new Error(d.error || `Erro HTTP ${r.status}: ${d.message || 'Erro ao gerar PIX'}`);
+        if (!d.payment_id) throw new Error('Resposta do servidor inválida: falta payment_id');
+        
+        console.log('✅ PIX criado:', d);
+        showPixModal(d.qr_code_base64 || d.qr_code, d.qr_code || d.qr_code_base64, d.payment_id, order);
 
       } else {
         // ── CARTÃO ───────────────────────────────────────────

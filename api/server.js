@@ -95,21 +95,46 @@ app.post('/api/payment/pix', async (req, res) => {
 
     console.log('Criando PIX:', cpfDigits.substring(0, 3) + '***');
     const payment = await paymentClient.create({ body });
-    console.log('MP PIX status:', payment.status);
+    console.log('MP PIX response:', JSON.stringify(payment, null, 2));
 
-    const pix = payment.point_of_interaction?.transaction_data;
+    // Trata diferentes estruturas de resposta do Mercado Pago
+    let qrCode = '';
+    let qrCodeBase64 = '';
 
-    return res.json({
+    if (payment.point_of_interaction?.qr_code?.in_store_order_id) {
+      qrCode = payment.point_of_interaction.qr_code.in_store_order_id;
+    }
+    if (payment.point_of_interaction?.qr_code?.content) {
+      qrCode = payment.point_of_interaction.qr_code.content;
+    }
+    if (payment.point_of_interaction?.transaction_data?.qr_code) {
+      qrCode = payment.point_of_interaction.transaction_data.qr_code;
+    }
+    if (payment.point_of_interaction?.transaction_data?.qr_code_base64) {
+      qrCodeBase64 = payment.point_of_interaction.transaction_data.qr_code_base64;
+    }
+
+    // Se não conseguir QR code, erro
+    if (!qrCode && !qrCodeBase64) {
+      console.error('Erro: Nenhum QR code retornado pela API MP. Response:', payment);
+      return res.status(500).json({ 
+        error: 'Erro ao gerar PIX: resposta incompleta do processador',
+        payment_id: payment.id || null
+      });
+    }
+
+    return res.status(200).json({
       payment_id: payment.id,
-      status: payment.status,
-      qr_code: pix?.qr_code,
-      qr_code_base64: pix?.qr_code_base64,
-      expires_at: pix?.ticket_url
+      status: payment.status || 'pending',
+      qr_code: qrCode,
+      qr_code_base64: qrCodeBase64,
+      expires_at: payment.date_of_expiration || null,
+      message: 'PIX criado com sucesso'
     });
   } catch (err) {
     const mpMsg = err?.cause?.[0]?.description || err?.message || 'desconhecido';
-    console.error('Erro ao criar PIX:', mpMsg);
-    return res.status(500).json({ error: `Erro MP: ${mpMsg}` });
+    console.error('Erro ao criar PIX:', mpMsg, 'Full error:', err);
+    return res.status(500).json({ error: `Erro ao processar PIX: ${mpMsg}` });
   }
 });
 
