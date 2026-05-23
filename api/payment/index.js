@@ -21,6 +21,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type']
 }));
 
+// Handle OPTIONS
+app.options('*', cors());
+
 // Debug logging
 app.use((req, res, next) => {
   console.log(`[DEBUG] ${req.method} ${req.path} | originalUrl: ${req.originalUrl}`);
