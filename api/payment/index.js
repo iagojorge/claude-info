@@ -47,10 +47,7 @@ export default async function handler(req, res) {
 
     console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`);
 
-    // Debug endpoint
-    if (path === '/debug') {
-      return res.status(200).json({ req_url: req.url, path });
-    }
+    // ──────────────── PIX Payment ────────────────
     if ((path === '/pix' || path === '' || path === '/') && req.method === 'POST') {
       const { name, email, cpf } = body;
       if (!name || !email) return res.status(400).json({ error: 'Nome e e-mail obrigatórios' });
