@@ -44,15 +44,12 @@ export default async function handler(req, res) {
     const body = parseBody(req.body);
     // Extract path from URL - remove query string and /api/payment prefix
     const urlPath = new URL(req.url || '/', 'https://example.com').pathname;
-    const path = urlPath.replace(/^\/api\/payment/, '') || '/';
+    const path = (urlPath.replace(/^\/api\/payment/, '') || '/').toLowerCase().trim();
     
-    // Normalize path
-    const normalizedPath = path.toLowerCase().trim();
-
-    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${normalizedPath}`, { urlPath, body: JSON.stringify(body).substring(0, 50) });
+    console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`);
 
     // ──────────────── PIX Payment ────────────────
-    if ((normalizedPath === '/pix' || normalizedPath === '/' || normalizedPath === '') && req.method === 'POST') {
+    if ((path === '/pix' || path === '/' || path === '') && req.method === 'POST') {
       const { name, email, cpf } = body;
       if (!name || !email) return res.status(400).json({ error: 'Nome e e-mail obrigatórios' });
       if (cpf && !isValidCPF(cpf)) return res.status(400).json({ error: 'CPF inválido' });
@@ -80,7 +77,7 @@ export default async function handler(req, res) {
     }
 
     // ──────────────── CARD Payment ────────────────
-    if ((normalizedPath === '/card') && req.method === 'POST') {
+    if ((path === '/card') && req.method === 'POST') {
       const { name, email, token, installments } = body;
       if (!name || !email || !token) return res.status(400).json({ error: 'Dados incompletos' });
 
@@ -106,7 +103,7 @@ export default async function handler(req, res) {
     // ──────────────── STATUS / Health GET ────────────────
     if (req.method === 'GET') {
       // Health check endpoints
-      if (normalizedPath === '/' || normalizedPath === '/health' || normalizedPath === '') {
+      if (path === '/' || path === '/health' || path === '') {
         return res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
       }
       
@@ -129,7 +126,7 @@ export default async function handler(req, res) {
       }
     }
 
-    return res.status(404).json({ error: 'Not found', path: normalizedPath, method: req.method });
+    return res.status(404).json({ error: 'Not found', path: path, method: req.method });
   } catch (err) {
     console.error('Handler Error:', err);
     return res.status(500).json({ error: 'Server error', msg: err.message });
