@@ -4,10 +4,6 @@
     {
       "source": "/ads/(.*)",
       "destination": "/ads/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ]
 }
