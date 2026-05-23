@@ -39,10 +39,11 @@ export default async function handler(req, res) {
 
   try {
     const body = parseBody(req.body);
-    // Extract path from req.url which includes everything after /api/payment
+    // Extract path from req.url which in Vercel is relative to the handler
+    // For /api/payment.js, req.url will be like "/", "/pix", "/123/status", etc
     const url = new URL(req.url || '/', 'https://api.example.com');
     let path = url.pathname || '/';
-    // Path will be like "/pix", "/160642554462", "/160642554462/status", etc
+    // Ensure path is normalized
     path = path.toLowerCase().trim();
 
     console.log(`[${new Date().toISOString()}] ${req.method} /api/payment${path}`);
